@@ -1,0 +1,75 @@
+#!/bin/bash
+#
+# sample.efscfg                                     10/20/2017 12:15:00
+#
+# Copyright (c) 2017, NVIDIA CORPORATION.  All rights reserved.
+#
+# aws_create_efs sample configuration file 
+#
+# This file is intened to demonstrate a way to customize a large number
+# of configuration parameters that specify how an aws instance is created
+# and configured. It is only and example and is not intended for large scale
+# production systems. 
+#
+# The values here allow you to override the default parmaters specified in the 
+# top of the aws_create_efs script. In fact, it's an exact copy of that
+# section of the file, with all the parameters commented out. You can
+# enable and modify any of these parameters, and name the modified file in
+# meaningful ways. 
+#
+# Usage:   aws_create_efs sample.efscfg
+#
+# This file is read by aws_create_efs right after all of the default
+# values are read in. Any parameter you set here will override the defaults
+#
+
+###############################################################################
+# Configurable parameters
+###############################################################################
+
+        # region where you will run your instances
+        # For example: "us-west-2" or "us-east-1"
+
+#    REGION="<WHERE YOU WILL RUN YOUR INSTANCE>"
+
+        # this is the public name that the volume will be given.
+        # you can search for this name, using "aws efs describe-file-systems"
+        # to get the file-system id. 
+        # For example: "$USER $(date +'%a %H:%M') Test"
+
+#    EFS_VOLUME_TAG_NAME="<THE NAME OF YOUR VOLUME>"
+
+        # Name of pre-created security group for the Volume
+        # This group must open port 2049 for NFS
+
+#    NFS_SECURITY_GROUP_NAME="<YOUR NFS ENABLED SECURITY GROUP NAME>"
+
+        # Unique token used to know if to create new EFS volume, or not
+        # Must be unique to create a new volume, or same to skip
+        # For example: CREATION_TOKEN="$USER-$(date +%A%Y%m$d%I%m%S)"
+
+#    CREATION_TOKEN="<MY CREATION TOKEN STRING>"  
+
+        # This is the disk perfomance mode
+        # this can either be "generalPurpose" or "maxIO"
+
+#    PERFORMANCE_MODE="generalPurpose"
+
+        # EFS mount settings - see 'man nfs' for details
+        # these are used in the mount and /etc/fstab command strings
+        # additional parameters could be defined if you change the script 
+        # In this script, these are just recommendations that are printed out
+        # in the example mount strings once the mount point was created. 
+
+#    EFS_TYPE="nfs4 nfsvers=4.1"
+#    EFS_RSIZE="rsize=1048576"
+#    EFS_WSIZE="wsize=1048576"
+#    EFS_TIMEO="timeo=600"
+#    EFS_RETRANS="retrans=2"
+#    EFS_HARD="hard"
+
+       # Recommended mount point -- not as with the settings above, it's 
+       # only printed out in the example strings at the end, not a real setting
+
+#    EFS_MOUNT_POINT="/efs/mount-point"
+

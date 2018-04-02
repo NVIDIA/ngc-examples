@@ -1,0 +1,36 @@
+#!/bin/bash
+# 
+# Copyright (c) 2018, NVIDIA CORPORATION.  All rights reserved.
+#
+# Example csp independent bash script calling ncsp to create and 
+# delete a VM, and between those two steps, run a command, stop
+# and then start the VM in a loop a number of times
+#
+# See the 'test' routine in ncsp for how an extended version of this
+# script is done in python within the ncsp code itself
+#
+# usage:  stest <CSP>    where <CSP> is one of valid CSPS
+#
+# exits with 0 if all the loops rand successfully
+#            1 if any failure
+#
+
+set -e                        # exit on any non-zero exit code
+CSP=$1                        # what CSP test is going to be run on
+./ncsp $CSP validCSP          # returns 0 only if we know this CSP name                              
+./ncsp $CSP createVM          # create a new VM
+
+CNT=0                         # counter
+while [ $CNT -lt 10 ]; do
+  echo "Loop $CNT -------------------------"
+  ./ncsp $CSP ssh uptime      # do something interesting
+  ./ncsp $CSP stopVM          # stop the VM
+  echo ""
+  sleep 10
+  ./ncsp $CSP startVM         # start VM
+  echo ""
+  sleep 10
+  CNT=$[$CNT+1]
+done
+./ncsp $CSP deleteVM          # delete the VM
+exit 0

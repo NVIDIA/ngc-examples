@@ -1,0 +1,42 @@
+#!/bin/bash
+# 
+# Copyright (c) 2018, NVIDIA CORPORATION.  All rights reserved.
+#
+# Example csp independent bash script calling ncsp to create and 
+# delete a VM - checking that actually created successfully
+# and can ping/ssh into them
+#
+# usage:  ctest <CSP>    where <CSP> is one of valid CSPS
+#
+# exits with 0 if all the loops ran successfully
+#            1 if any failure
+#
+
+set +e                        # DO NOT exit on any non-zero exit code
+CSP=$1                        # what CSP test is going to be run on
+./ncsp $CSP validCSP          # returns 0 only if we know this CSP name                              
+CNT=0                         # counter
+FAIL=0
+
+   # loop test a number of times
+
+while [ $CNT -lt 10 ]; do
+  ./ncsp $CSP createVM        # create a new VM
+  rc=$?
+  sleep 10
+  if [ $rc == 0 ]; then       # successful creating vm?
+      ./ncsp $CSP ping        # can we ping (quick check)
+      if [ $? -ne 0 ]; then
+         echo "ping failed"
+         FAIL=$[$FAIL+1]
+      fi
+  else 
+      FAIL=$[$FAIL+1]
+  fi
+
+  CNT=$[$CNT+1]
+./ncsp $CSP deleteVM          # delete the VM
+  echo "--------------------- Loop $CNT Fails:$FAIL -------------------------"
+  sleep 10
+done
+exit $FAILS
