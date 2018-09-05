@@ -456,7 +456,7 @@ class CSPClass(CSPBaseClass):
         
         outer_retcode = 0
         for idx in range(0, len(ingress)):
-            self.Inform("CreateNSG rule %s.%s" % args.nsg_name, ingress[idx]["Name"] )        
+            self.Inform("CreateNSG rule %s.%s" % (args.nsg_name, ingress[idx]["Description"]))
 
             cmd =  "aws ec2 authorize-security-group-ingress"
             cmd += " --group-id %s" % args.nsg_id
