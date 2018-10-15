@@ -55,7 +55,7 @@ Note that the general and many CSP specific command line options can be displaye
 ncsp <CSP> --help
 ```
 
-Well Google Cloud has been fun, but you might run into case where you need to run the same test multiple times on differnt CSPs. In this case, we parameterize the CSP name, as **CSP**, which is passed into a small scrupt run **mytest** in a loop 1000 times. 
+Well Google Cloud has been fun, but you might run into case where you need to run the same test multiple times on different CSPs. In this case, we parameterize the CSP name, as **CSP**, which is passed into a small scrupt run **mytest** in a loop 1000 times. 
 ```
  #!/bin/bash
  # mytest script -- create/delete and run a test on a VM 1000 times
@@ -115,7 +115,7 @@ There are a few values at the top of each csp specific module that you should se
  # default_key_name:     User will need to create their own security key and 
  #                       specify it's name here.
  # region:               The <CSP> region that they wish to run in. Note that
- #                       GPU instances might not be avaliable at all sites
+ #                       GPU instances might not be available at all sites
  # user:                 Login user name for instance. May be hardcoded by ISP 
  #                       based on the image_name being selected. 
  ##############################################################################
@@ -130,7 +130,7 @@ default_user            = "my-user-name"
  # default_image_name:    Name of OS template that instance will be created with
  # default_instance_type: The default name that defines the memory and cpu sizes
  #                        and the gpu types for the instance. Changes
- # default_choices:       Avaliable instance types that user can select with
+ # default_choices:       Available instance types that user can select with
  #                        This will probably be different per region, and will
  #                        continue to change over time. Used as a pre-check in  
  #                        command parser to verify choice before sending to csp
@@ -146,8 +146,8 @@ There may be a few more of these, depending upon which CSP is being used. But al
 
 While you can enter these on the command line, and they are persistent until the VM is deleted, you will find it easiest to set these up properly. 
 
-### Persistance: 
-Persistance of the arguments and logs is done in the **$HOME/ncsg** directory. You will see a directory for each CSP of the form
+### Persistence: 
+Persistence of the arguments and logs is done in the **$HOME/ncsg** directory. You will see a directory for each CSP of the form
 ```
 └── aws
     ├── data
@@ -168,7 +168,7 @@ That tracing will remain in effect, till you turn it off, clear the args, or del
 ncsp aws deleteVM                 # trace will be turned off at end of the command
 ncsp aws createVM                 # no tracing will be enabled for next creating
 ```
-Note that due simply to this simple per-CSP directory structure, only one active instance is allowed for a single CSP at one time. But you can have unique instances running in each supported CSP. There are several ways around this, one of which is listed below, so don't fret about this preceived limitation too much. 
+Note that due simply to this simple per-CSP directory structure, only one active instance is allowed for a single CSP at one time. But you can have unique instances running in each supported CSP. There are several ways around this, one of which is listed below, so don't fret about this perceived limitation too much. 
 ### More serious scripting
 As shown above, you embed these commands in other scripts.   For a little bigger example, here is something that creates a VM, starts and stops it 10 times, then deletes it.  It works with any of the CSPs that you have accounts with.
 
@@ -208,9 +208,9 @@ The file **template_funcs.csp** contains the 20 or so CSP dependent function wit
     ./ncsp template running
 ```
 
-So, to develop support a new CSP, or to test features of an exising one without effecting the current code, start with **template_funcs.csp** or copy one of the working files to a new name and then minipulate as needed. 
+So, to develop support a new CSP, or to test features of an existing one without effecting the current code, start with **template_funcs.csp** or copy one of the working files to a new name and then minipulate as needed. 
 
-Note that as the CSP name changes, so does the persistant data path mentioned above, so you also get a compleatly isolated data and logs directory
+Note that as the CSP name changes, so does the persistent data path mentioned above, so you also get a completely isolated data and logs directory
 ```
 Peters-MacBook-Pro:ncsp pbradstr$ ln -s aws_funcs.py myaws_funcs.py
 Peters-MacBook-Pro:ncsp pbradstr$ ./ncsp myaws show
